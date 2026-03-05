@@ -17,6 +17,12 @@ inputs:
   base_url:
     description: 'Quant API base URL'
     required: false
+  preview_domain:
+    description: 'Preview domain for edge function URLs (e.g. abc123.my-org.quantcdn.io)'
+    required: false
+  quant_project:
+    description: 'Quant project machine name (used in edge function URL path)'
+    required: false
 outputs:
   deployed_tools:
     description: 'JSON array of deployed tool names'

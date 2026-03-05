@@ -11,6 +11,7 @@ interface ToolConfig {
   category?: string;
   executionMode?: 'edge_function' | 'client';
   edgeFunctionUrl?: string;
+  uuid?: string;
   isAsync?: boolean;
   responseMode?: 'direct' | 'llm';
   timeout?: number;
@@ -35,6 +36,8 @@ async function run(): Promise<void> {
     const organization = core.getInput('quant_organization', { required: true });
     const toolsDir = core.getInput('tools_dir', { required: true });
     const baseUrl = core.getInput('base_url') || DEFAULT_BASE_URL;
+    const previewDomain = core.getInput('preview_domain');
+    const project = core.getInput('quant_project');
 
     // The SDK appends /api/v3/... paths internally, so strip it if provided.
     const basePath = baseUrl.replace(/\/api\/v3\/?$/, '');
@@ -95,10 +98,20 @@ async function run(): Promise<void> {
       // Map tool.json to SDK request. The SDK interface is a subset of what the
       // API accepts — spread the full config so extra fields (category,
       // executionMode, responseMode, etc.) are sent through to the API.
+      // Build edgeFunctionUrl from UUID if preview_domain is configured
+      let edgeFunctionUrl = toolConfig.edgeFunctionUrl || '';
+      if (toolConfig.uuid && previewDomain && project) {
+        edgeFunctionUrl = `https://${previewDomain}/_quant/ai-exec/${organization}/${project}/${toolConfig.uuid}`;
+        core.info(`  Edge function URL: ${edgeFunctionUrl}`);
+      } else if (toolConfig.uuid && (!previewDomain || !project)) {
+        core.setFailed(`Tool ${toolConfig.toolName} has uuid but missing preview_domain or quant_project inputs`);
+        return;
+      }
+
       const request: CreateCustomToolRequest & Record<string, unknown> = {
         name: toolConfig.toolName,
         description: toolConfig.description,
-        edgeFunctionUrl: toolConfig.edgeFunctionUrl || '',
+        edgeFunctionUrl: edgeFunctionUrl,
         inputSchema: toolConfig.inputSchema,
         isAsync: toolConfig.isAsync,
         timeoutSeconds: toolConfig.timeout,
