@@ -1,0 +1,38 @@
+name: Test Quant Agent Tools Action
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - '.github/workflows/test.yml'
+      - 'package.json'
+      - 'package-lock.json'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build with ncc
+        run: npx ncc build src/index.ts
+
+      - name: Verify dist
+        run: |
+          ls -la dist/
+          test -f dist/index.js
+          echo "Build successful"
