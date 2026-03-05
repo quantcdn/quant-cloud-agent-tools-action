@@ -1,0 +1,25 @@
+name: 'Quant Agent Tools'
+description: 'Register and update custom tools on the Quant platform for use by AI agents'
+branding:
+  icon: 'tool'
+  color: 'blue'
+inputs:
+  quant_api_key:
+    description: 'Quant API key'
+    required: true
+  quant_organization:
+    description: 'Quant organisation name'
+    required: true
+  tools_dir:
+    description: 'Directory containing tool definitions (tool.json per subdirectory)'
+    required: true
+    default: 'tools/'
+  base_url:
+    description: 'Quant API base URL'
+    required: false
+outputs:
+  deployed_tools:
+    description: 'JSON array of deployed tool names'
+runs:
+  using: 'node20'
+  main: 'dist/index.js'

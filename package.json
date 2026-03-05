@@ -1,0 +1,19 @@
+{
+  "name": "quant-agent-tools-action",
+  "version": "1.0.0",
+  "description": "GitHub Action for registering and updating custom tools on the Quant platform",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "ncc build src/index.ts",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@quantcdn/quant-client": "^4.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@vercel/ncc": "^0.38.4",
+    "typescript": "^5.9.3"
+  }
+}
