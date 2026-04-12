@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@actions/core": "^1.10.0",
-    "@quantcdn/quant-client": "^4.12.0"
+    "@quantcdn/quant-client": "^4.15.4"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
