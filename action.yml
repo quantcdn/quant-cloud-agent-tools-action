@@ -18,10 +18,10 @@ inputs:
     description: 'Quant API base URL'
     required: false
   preview_domain:
-    description: 'Preview domain for edge function URLs (e.g. abc123.my-org.quantcdn.io)'
+    description: 'DEPRECATED — no longer used. The platform deploys edge functions and computes their URLs itself.'
     required: false
   quant_project:
-    description: 'Quant project machine name (used in edge function URL path)'
+    description: 'DEPRECATED — no longer used. The platform deploys edge functions and computes their URLs itself.'
     required: false
 outputs:
   deployed_tools:
