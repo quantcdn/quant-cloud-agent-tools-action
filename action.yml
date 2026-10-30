@@ -27,5 +27,6 @@ outputs:
   deployed_tools:
     description: 'JSON array of deployed tool names'
 runs:
-  using: 'node20'
+  using: 'node24'
+  pre: 'runtime-check.cjs'
   main: 'dist/index.js'

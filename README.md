@@ -163,3 +163,12 @@ The action ships its compiled `dist/` — commit the build output alongside sour
 ## License
 
 This project is licensed under the MIT License.
+
+## Runner security requirement
+
+This action uses the runner's embedded Node 24, which must be 24.22.1 or later
+for CVE-2026-111497. Update self-hosted runner containers/binaries to apply the
+fix. A `setup-node` workflow step changes the job shell runtime, not the Node
+binary GitHub uses to execute actions. A pre-run check rejects vulnerable
+runner versions before action API calls. Use the current maintained action tag
+or its immutable release SHA; historical pinned releases do not update themselves.
